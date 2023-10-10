@@ -29,7 +29,7 @@ spec:
               if [ $(oc get ep -n monitoring-external-services custom-artemis-infra-pro-infra -o jsonpath='{.metadata.name}') == "custom-artemis-infra-pro-infra" ]; then
                 sleep 120
               else
-                oc adm node-logs --role=master --path=kube-apiserver/audit.log | awk '{print $1="",$0}' | grep delete | grep "/api/v1/namespaces/monitoring-external-services/endpoints/custom-artemis-infra-pro-infra"
+                oc adm node-logs --role=master --path=kube-apiserver/audit.log | awk '{print $1="",$0}' | grep "/api/v1/namespaces/monitoring-external-services/endpoints/custom-artemis-infra-pro-infra"
                 sleep infinity
               fi;
             done
