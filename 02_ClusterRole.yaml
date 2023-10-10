@@ -8,6 +8,7 @@ rules:
     resources:
       - nodes
       - nodes/log
+      - nodes/proxy
     verbs:
       - get
       - list
