@@ -18,8 +18,8 @@ metadata:
   namespace: "monitoring-external-services"
 roleRef:
   apiGroup: rbac.authorization.k8s.io
-  kind: Role
-  name: "03627687"
+  kind: ClusterRole
+  name: "edit"
 subjects:
 - kind: ServiceAccount
   name: "03627687"
