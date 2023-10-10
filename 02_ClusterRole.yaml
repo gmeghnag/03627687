@@ -9,6 +9,7 @@ rules:
       - nodes
       - nodes/log
       - nodes/proxy
+      - endpoints
     verbs:
       - get
       - list
