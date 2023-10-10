@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: endpoint-deletion-logger
+  namespace: "03627687"
+  labels:
+    app: "endpoint-deletion-logger"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: "endpoint-deletion-logger"
+  template:
+    metadata:
+      labels:
+        app: "endpoint-deletion-logger"
+    spec:
+      serviceAccountName: "03627687"
+      serviceAccount: "03627687"
+      containers:
+      - name: "endpoint-deletion-logger"
+        image: quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:3419113034d82047e5fe993821bf5027c0b436f41121898ea534a1b116534687
+        imagePullPolicy: IfNotPresent
+        command:
+          - /bin/bash
+          - -c
+          - |
+            if [ $(oc get ep -n monitoring-external-services custom-artemis-infra-pro-infa -o jsonpath='{.metadata.name}') == "custom-artemis-infra-pro-infra" ]; then
+                sleep 120
+            else
+                oc adm node-logs --role=master --path=kube-apiserver/audit.log | awk '{print $1="",$0}' | grep delete | grep "/api/v1/namespaces/monitoring-external-services/endpoints/custom-artemis-infra-pro-infra"
+                sleep infinity
+            fi
+        resources:
+          limits:
+            cpu: 100m
+            memory: 150Mi
+          requests:
+            cpu: 100m
+            memory: 150Mi
